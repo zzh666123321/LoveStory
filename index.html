@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFFBF8">
+<meta name="description" content="我们在一起两周年了。2024.11.20 — 2026.11.20，把散落的瞬间收起来。">
+<title>我们在一起两年了 · 2024.11.20 — 2026.11.20</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%97%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ========================= 导航 ========================= -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="nav__brand" href="#top">
+      <i>❤</i><span data-bind="brand">子涵 &amp; 小玉</span>
+    </a>
+
+    <ul class="nav__links" id="navLinks">
+      <li><a href="#top">首页</a></li>
+      <li><a href="#about">我们</a></li>
+      <li><a href="#story">时光</a></li>
+      <li><a href="#gallery">相册</a></li>
+      <li><a href="#letter">寄语</a></li>
+    </ul>
+
+    <button class="nav__toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ========================= 首屏 ========================= -->
+  <section class="hero" id="top">
+    <div class="hero__inner">
+      <p class="hero__eyebrow" data-bind="eyebrow">2024.11.20 — 2026.11.20</p>
+
+      <h1 class="hero__title" id="heroTitle">
+        我们，<span class="mark">两年</span>了
+      </h1>
+
+      <p class="hero__sub" data-bind="subtitle"></p>
+
+      <!-- 实时计时：天 / 时 / 分 / 秒 -->
+      <div class="clock" id="clock" aria-live="off">
+        <div class="clock__cell"><span class="clock__num" id="cDay">000</span><span class="clock__label">天</span></div>
+        <div class="clock__cell"><span class="clock__num" id="cHour">00</span><span class="clock__label">小时</span></div>
+        <div class="clock__cell"><span class="clock__num" id="cMin">00</span><span class="clock__label">分钟</span></div>
+        <div class="clock__cell"><span class="clock__num" id="cSec">00</span><span class="clock__label">秒</span></div>
+      </div>
+      <p class="clock__hint" id="clockHint" style="margin:18px 0 0;font-size:12.5px;letter-spacing:.2em;color:var(--ink-faint);"></p>
+
+      <div class="hero__hint">
+        <span data-bind="scrollHint">往下看我们的故事</span>
+        <i></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= 关于我们 ========================= -->
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="head__en" data-bind="aboutSub">About Us</span>
+        <h2 class="head__cn" data-bind="aboutTitle">关于我们</h2>
+        <div class="head__line"></div>
+      </div>
+
+      <div class="about__grid">
+        <figure class="about__figure reveal">
+          <img id="aboutPhoto" src="assets/images/FirstQianshou.jpg" alt="我们的合照">
+          <figcaption id="aboutCaption"></figcaption>
+        </figure>
+
+        <div class="about__body reveal" id="aboutBody"></div>
+      </div>
+
+      <!-- 三个数字 -->
+      <div class="stats reveal" id="stats"></div>
+    </div>
+  </section>
+
+  <!-- ========================= 时间轴 ========================= -->
+  <section class="section section--paper" id="story">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="head__en">Our Timeline</span>
+        <h2 class="head__cn">我们的时间线</h2>
+        <div class="head__line"></div>
+      </div>
+
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- ========================= 相册 ========================= -->
+  <section class="section" id="gallery">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="head__en">Gallery</span>
+        <h2 class="head__cn">被记住的瞬间</h2>
+        <div class="head__line"></div>
+      </div>
+
+      <div class="gallery" id="galleryGrid"></div>
+    </div>
+  </section>
+
+  <!-- ========================= 寄语 ========================= -->
+  <section class="section section--paper" id="letter">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="head__en" data-bind="letterSub">A Letter</span>
+        <h2 class="head__cn" data-bind="letterTitle">想对你说</h2>
+        <div class="head__line"></div>
+      </div>
+
+      <article class="letter reveal" id="letterCard">
+        <span class="letter__mark">❦</span>
+        <div id="letterBody"></div>
+        <div class="letter__sign">
+          <span id="letterSign"></span>
+          <em id="letterNote"></em>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========================= 页脚 ========================= -->
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__line" data-bind="footerLine">730 天，只是开始。</p>
+    <p class="footer__names" data-bind="footerNames"></p>
+    <p class="footer__note" data-bind="footerNote"></p>
+  </div>
+</footer>
+
+<!-- ========================= 灯箱 ========================= -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="照片大图">
+  <button class="lightbox__close" id="lbClose" aria-label="关闭">✕</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" aria-label="上一张">‹</button>
+  <button class="lightbox__nav lightbox__nav--next" id="lbNext" aria-label="下一张">›</button>
+
+  <div class="lightbox__box">
+    <img id="lbImg" src="" alt="">
+    <div class="lightbox__cap">
+      <h3 id="lbTitle"></h3>
+      <p id="lbDesc"></p>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/content.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
