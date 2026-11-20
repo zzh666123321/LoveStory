@@ -157,6 +157,29 @@
   </div>
 </div>
 
+<!-- ========================= 背景音乐 ========================= -->
+<audio id="bgmAudio" loop preload="metadata"></audio>
+
+<button class="bgm" id="bgmToggle" type="button" aria-label="播放背景音乐" aria-pressed="false" hidden>
+  <span class="bgm__ring"></span>
+
+  <!-- 音符：未播放 -->
+  <svg class="bgm__ico bgm__ico--play" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M9 17.5V5.6l10-2v11.9"/>
+    <circle cx="6.2" cy="17.8" r="2.9"/>
+    <circle cx="16.2" cy="15.5" r="2.9"/>
+  </svg>
+
+  <!-- 暂停条：播放中 -->
+  <svg class="bgm__ico bgm__ico--pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <rect x="7.2" y="5" width="3.4" height="14" rx="1.5"/>
+    <rect x="13.4" y="5" width="3.4" height="14" rx="1.5"/>
+  </svg>
+
+  <span class="bgm__tip" id="bgmTip"></span>
+</button>
+
 <script src="assets/js/content.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
