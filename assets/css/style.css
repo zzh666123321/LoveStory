@@ -857,6 +857,105 @@ a { color: inherit; text-decoration: none; }
   opacity: .78;
 }
 
+/* ---------------------------------------------------------------- 音乐按钮 */
+.bgm {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 850;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  border: 1px solid rgba(196, 117, 127, .22);
+  border-radius: 50%;
+  background: rgba(255, 251, 248, .82);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 10px 30px -12px rgba(150, 85, 90, .4), inset 0 1px 0 #fff;
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform .4s var(--ease), color .4s var(--ease),
+              box-shadow .4s var(--ease), border-color .4s var(--ease);
+}
+.bgm[hidden] { display: none; }
+.bgm:hover {
+  transform: translateY(-2px);
+  color: var(--rose-deep);
+  border-color: rgba(196, 117, 127, .4);
+  box-shadow: 0 16px 36px -14px rgba(150, 85, 90, .5), inset 0 1px 0 #fff;
+}
+.bgm:active { transform: translateY(0) scale(.96); }
+.bgm:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 3px;
+}
+
+/* 外圈虚线，播放时缓慢转 */
+.bgm__ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(196, 117, 127, .45);
+  opacity: 0;
+  transition: opacity .45s var(--ease);
+  pointer-events: none;
+}
+.bgm.is-playing .bgm__ring {
+  opacity: 1;
+  animation: bgmSpin 9s linear infinite;
+}
+@keyframes bgmSpin {
+  to { transform: rotate(360deg); }
+}
+
+.bgm__ico {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  transition: opacity .3s var(--ease), transform .4s var(--ease);
+}
+.bgm__ico--pause { opacity: 0; transform: scale(.7); }
+.bgm.is-playing { color: var(--rose-deep); }
+.bgm.is-playing .bgm__ico--play { opacity: 0; transform: scale(.7); }
+.bgm.is-playing .bgm__ico--pause { opacity: 1; transform: none; }
+
+/* 播放时轻轻呼吸，提示「正在响」 */
+.bgm.is-playing {
+  animation: bgmPulse 3.4s ease-in-out infinite;
+}
+@keyframes bgmPulse {
+  0%, 100% { box-shadow: 0 10px 30px -12px rgba(150, 85, 90, .4), inset 0 1px 0 #fff; }
+  50%      { box-shadow: 0 10px 34px -8px rgba(196, 117, 127, .55), inset 0 1px 0 #fff; }
+}
+
+/* 悬停时右侧冒出的小提示 */
+.bgm__tip {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  padding: 5px 12px;
+  font-size: 12px;
+  letter-spacing: .12em;
+  white-space: nowrap;
+  color: var(--ink-soft);
+  background: rgba(255, 251, 248, .95);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s var(--ease), transform .35s var(--ease);
+}
+.bgm:hover .bgm__tip,
+.bgm:focus-visible .bgm__tip {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+.bgm__tip:empty { display: none; }
+
 /* ---------------------------------------------------------------- 响应式 */
 @media (max-width: 1024px) {
   .about__grid { grid-template-columns: 1fr; gap: 52px; }
@@ -960,6 +1059,11 @@ a { color: inherit; text-decoration: none; }
   .about__body p { font-size: 14.8px; }
 
   .letter::before, .letter::after { width: 22px; height: 22px; }
+
+  /* 音乐按钮缩小，去掉 hover 提示 */
+  .bgm { right: 16px; bottom: 16px; width: 48px; height: 48px; }
+  .bgm__ico { width: 20px; height: 20px; }
+  .bgm__tip { display: none; }
 }
 
 /* 用户系统开了「减少动效」就关掉动画 */

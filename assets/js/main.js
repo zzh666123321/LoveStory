@@ -87,18 +87,24 @@
 
       /* 距离下一个纪念日还剩几天 */
       var years = (C.couple && C.couple.anniversaryYears) || 1;
-      var target = anniversaryOf(years);
-      if (now >= target) target = anniversaryOf(years + 1);
-
       var dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+      var target = anniversaryOf(years);
+      /* 只按「日期」比较：纪念日当天要显示「就是今天」，过了当天才顺延到下一年 */
+      if (dayStart.getTime() > target.getTime()) target = anniversaryOf(years + 1);
+
       var leftDays = Math.round((target - dayStart) / 86400000);
+      var nth = target.getFullYear() - start.getFullYear();
 
       if (hint) {
-        var nth = target.getFullYear() - start.getFullYear();
         if (leftDays === 0) {
-          hint.textContent = "就是今天 · " + nth + " 周年纪念日";
+          hint.textContent = "就是今天 · 我们的 " + nth + " 周年";
+          hint.style.color = "var(--rose-deep)";
+          hint.style.fontWeight = "500";
         } else {
           hint.textContent = "距离 " + nth + " 周年纪念日 · 还有 " + leftDays + " 天";
+          hint.style.color = "";
+          hint.style.fontWeight = "";
         }
       }
     }
@@ -422,6 +428,53 @@
     });
   }
 
+  /* ======================================================== 11. 背景音乐 */
+  function initMusic() {
+    var cfg  = C.music || {};
+    var audio = $("#bgmAudio");
+    var btn   = $("#bgmToggle");
+    if (!audio || !btn) return;
+
+    /* 没配音乐就不显示按钮 */
+    if (!cfg.src) return;
+
+    audio.src = cfg.src;
+    audio.volume = typeof cfg.volume === "number"
+      ? Math.min(1, Math.max(0, cfg.volume))
+      : 0.4;
+
+    var tip = $("#bgmTip");
+    if (tip && cfg.title) tip.textContent = cfg.title;
+
+    function setPlaying(on) {
+      btn.classList.toggle("is-playing", !!on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+      btn.setAttribute("aria-label", on ? "暂停背景音乐" : "播放背景音乐");
+    }
+
+    audio.addEventListener("play",  function () { setPlaying(true); });
+    audio.addEventListener("pause", function () { setPlaying(false); });
+
+    /* 文件不存在 / 格式不支持时，直接把按钮藏掉，避免点了没反应 */
+    audio.addEventListener("error", function () {
+      setPlaying(false);
+      btn.hidden = true;
+    });
+
+    btn.hidden = false;
+
+    btn.addEventListener("click", function () {
+      if (audio.paused) {
+        var p = audio.play();
+        if (p && typeof p.catch === "function") {
+          p.catch(function () { setPlaying(false); });
+        }
+      } else {
+        audio.pause();
+      }
+    });
+  }
+
   /* ======================================================== 启动 */
   function init() {
     bindBasic();
@@ -434,6 +487,7 @@
     initReveal();
     initPetals();
     initClickHearts();
+    initMusic();
     startClock();
   }
 
